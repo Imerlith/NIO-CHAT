@@ -17,6 +17,10 @@ public class Client {
     SwingUtilities.invokeLater(LoginWindow::new);
   }
 
+  public Client(String nick){
+    SwingUtilities.invokeLater(()->new ChatWindow(nick));
+  }
+
 
 
   public static void main(String[] args) {

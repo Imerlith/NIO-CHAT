@@ -45,11 +45,15 @@ public class Server {
             while(iterator.hasNext()){
 
                 SelectionKey key =(SelectionKey) iterator.next();
-                iterator.remove();
+
                 if (key.isAcceptable()){
+
                     SocketChannel socketChannel  = serverChannel.accept();
-                    socketChannel.configureBlocking(false);
-                    socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE);
+                    if(socketChannel!=null){
+                        socketChannel.configureBlocking(false);
+                        socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE);
+                    }
+
                     continue;
                 }
                 if (key.isReadable()){
@@ -79,9 +83,9 @@ public class Server {
             Set keys = selector.selectedKeys();
             for (Object o : keys) {
                 SelectionKey key = (SelectionKey) o;
-                if(key.isWritable()){
+                if (key.isWritable()) {
                     SocketChannel socketChannel = (SocketChannel) key.channel();
-                    CommUtils.writeFromString(message,socketChannel);
+                    CommUtils.writeFromString(message, socketChannel);
                 }
             }
         } catch (IOException e) {

@@ -6,7 +6,7 @@ import java.util.Date;
 public class Message {
     private String content;
     private Date date;
-    private String name;
+
 
     public Message(String content) {
         this.content = content;
