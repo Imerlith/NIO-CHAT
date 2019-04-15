@@ -9,9 +9,17 @@ package zad1;
 
 import javax.swing.*;
 
+
 public class Client {
 
-  public static void main(String[] args) {
+
+  public Client(){
     SwingUtilities.invokeLater(LoginWindow::new);
+  }
+
+
+
+  public static void main(String[] args) {
+   new Client();
   }
 }

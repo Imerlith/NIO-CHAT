@@ -13,6 +13,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -36,16 +37,19 @@ public class Server {
     }
     private void listenForConnections() throws IOException {
         while (listening){
+
             selector.select();
             Set keys = selector.selectedKeys();
-            Iterator  iterator = keys.iterator();
+            Set syset = Collections.synchronizedSet(keys);
+            Iterator  iterator = syset.iterator();
             while(iterator.hasNext()){
+
                 SelectionKey key =(SelectionKey) iterator.next();
                 iterator.remove();
                 if (key.isAcceptable()){
                     SocketChannel socketChannel  = serverChannel.accept();
                     socketChannel.configureBlocking(false);
-                    serverChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE);
+                    socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE);
                     continue;
                 }
                 if (key.isReadable()){
